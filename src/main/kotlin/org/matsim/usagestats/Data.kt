@@ -66,7 +66,7 @@ data class MachineData(val osName: String,
 // TODO: add stack trace if crash
 // TODO: information on config parameters
 data class MatsimRunData(val matsimVersion: String,
-                         val guiceBindings: List<GuiceBindingData>,
+                         val guiceSources: List<GuiceBindingData>,
                          val unexpectedShutdown: Boolean) {
     constructor(controller: MatsimServices, unexpectedShutdown: Boolean) : this(
             Gbl.getBuildInfoString(),
