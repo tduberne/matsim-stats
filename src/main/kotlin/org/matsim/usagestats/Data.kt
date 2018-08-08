@@ -7,24 +7,30 @@ import org.matsim.core.gbl.Gbl
 import java.lang.management.ManagementFactory
 import java.lang.management.MemoryType
 
-data class UsageStats(val memory: MemoryData,
-                      val scenario: ScenarioData,
-                      val machine: MachineData,
-                      val matsim: MatsimRunData) {
-    constructor(services: MatsimServices, unexpectedShutdown: Boolean) : this(
-            MemoryData(),
-            ScenarioData(services.scenario),
-            MachineData(),
-            MatsimRunData(services, unexpectedShutdown)
-    )
+data class UsageStats(var memory: MemoryData = MemoryData(),
+                      var scenario: ScenarioData = ScenarioData(),
+                      var machine: MachineData = MachineData(),
+                      var matsim: MatsimRunData = MatsimRunData()) {
+    constructor() : this(memory = MemoryData())
+
+    companion object {
+        fun create(services: MatsimServices, unexpectedShutdown: Boolean) = UsageStats(
+                MemoryData.create(),
+                ScenarioData.create(services.scenario),
+                MachineData.create(),
+                MatsimRunData.create(services, unexpectedShutdown))
+    }
 }
 
-data class MemoryData(val peakHeapMB: Double,
-                      val peakNonHeapMB: Double) {
-    constructor() : this(
-            peakUseMB(MemoryType.HEAP),
-            peakUseMB(MemoryType.NON_HEAP)
-    )
+data class MemoryData(var peakHeapMB: Double? = null,
+                      var peakNonHeapMB: Double? = null) {
+    constructor() : this(peakHeapMB = null)
+
+    companion object {
+        fun create() = MemoryData(
+                peakUseMB(MemoryType.HEAP),
+                peakUseMB(MemoryType.NON_HEAP))
+    }
 }
 
 fun peakUseMB(type: MemoryType) : Double =
@@ -34,60 +40,76 @@ fun peakUseMB(type: MemoryType) : Double =
                 .sum() / 1E6
 
 
-data class ScenarioData(val populationSize: Int,
-                        val nLinks: Int,
-                        val nNodes: Int,
-                        val nFacilities: Int,
-                        val nTransitLines: Int,
-                        val nTransitStops: Int) {
-    constructor(scenario: Scenario) :
-        this(scenario.population.persons.size,
-                scenario.network.links.size,
-                scenario.network.nodes.size,
-                scenario.activityFacilities.facilities.size,
-                scenario.transitSchedule.transitLines.size,
-                scenario.transitSchedule.facilities.size)
+data class ScenarioData(var populationSize: Int? = null,
+                        var nLinks: Int? = null,
+                        var nNodes: Int? = null,
+                        var nFacilities: Int? = null,
+                        var nTransitLines: Int? = null,
+                        var nTransitStops: Int? = null) {
+    constructor() : this(populationSize = null)
+
+    companion object {
+        fun create(scenario: Scenario) =
+                ScenarioData(scenario.population.persons.size,
+                        scenario.network.links.size,
+                        scenario.network.nodes.size,
+                        scenario.activityFacilities.facilities.size,
+                        scenario.transitSchedule.transitLines.size,
+                        scenario.transitSchedule.facilities.size)
+    }
 }
 
-data class MachineData(val osName: String,
-                       val osArch: String,
-                       val osVersion: String,
-                       val jvmVendor: String,
-                       val jvmVersion: String) {
-    constructor() : this(
-            System.getProperty("os.name"),
-            System.getProperty("os.arch"),
-            System.getProperty("os.version"),
-            System.getProperty("java.vendor"),
-            System.getProperty("java.version")
-    )
+data class MachineData(var osName: String? = null,
+                       var osArch: String? = null,
+                       var osVersion: String? = null,
+                       var jvmVendor: String? = null,
+                       var jvmVersion: String? = null) {
+    constructor() : this(osName = null)
+
+    companion object {
+        fun create() = MachineData(
+                System.getProperty("os.name"),
+                System.getProperty("os.arch"),
+                System.getProperty("os.version"),
+                System.getProperty("java.vendor"),
+                System.getProperty("java.version")
+        )
+    }
 }
 
 // TODO: add stack trace if crash
 // TODO: information on config parameters
-data class MatsimRunData(val matsimVersion: String,
-                         val guiceBindings: List<GuiceBindingData>,
-                         val unexpectedShutdown: Boolean) {
-    constructor(controller: MatsimServices, unexpectedShutdown: Boolean) : this(
-            Gbl.getBuildInfoString(),
-            // TODO: filter only MATSim classes?
-            controller.injector.bindings.values.map(::GuiceBindingData),
-            unexpectedShutdown
-    )
+data class MatsimRunData(var matsimVersion: String? = null,
+                         var guiceBindings: List<GuiceBindingData>? = null,
+                         var unexpectedShutdown: Boolean? = null) {
+    constructor() : this(matsimVersion = null)
+
+    companion object {
+        fun create(controller: MatsimServices, unexpectedShutdown: Boolean) = MatsimRunData(
+                Gbl.getBuildInfoString(),
+                // TODO: filter only MATSim classes?
+                controller.injector.bindings.values.map { GuiceBindingData.create(it) },
+                unexpectedShutdown
+        )
+    }
 }
 
-data class GuiceBindingData(val key: String,
-                            val annotation: String?,
-                            val type: String,
-                            val provider: String,
-                            val source: String) {
-    constructor(binding: Binding<*>) : this(
-            binding.key.toString(),
-            binding.key.annotation?.toString(),
-            binding.key.typeLiteral.toString(),
-            binding.provider.toString(),
-            binding.source.toString()
-    )
+data class GuiceBindingData(var key: String? = null,
+                            var annotation: String? = null,
+                            var type: String? = null,
+                            var provider: String? = null,
+                            var source: String? = null) {
+    constructor() : this(key = null)
+
+    companion object {
+        fun create(binding: Binding<*>) = GuiceBindingData(
+                binding.key.toString(),
+                binding.key.annotation?.toString(),
+                binding.key.typeLiteral.toString(),
+                binding.provider.toString(),
+                binding.source.toString()
+        )
+    }
 }
 
 // TODO: information on input files
