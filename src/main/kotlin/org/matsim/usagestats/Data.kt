@@ -6,10 +6,7 @@ import org.matsim.core.controler.MatsimServices
 import org.matsim.core.gbl.Gbl
 import java.lang.management.ManagementFactory
 import java.lang.management.MemoryType
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.GenerationType
-import javax.persistence.Id
+import javax.persistence.*
 
 @Entity
 data class UsageStats(var memory: MemoryData = MemoryData(),
@@ -109,6 +106,7 @@ data class MachineData(var osName: String? = null,
 // TODO: information on config parameters
 @Entity
 data class MatsimRunData(var matsimVersion: String? = null,
+                         @OneToMany(cascade = [CascadeType.ALL], orphanRemoval = true)
                          var guiceBindings: List<GuiceBindingData>? = null,
                          var unexpectedShutdown: Boolean? = null) {
     // not part of automatic equals method etc.
