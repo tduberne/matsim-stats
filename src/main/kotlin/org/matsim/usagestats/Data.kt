@@ -9,9 +9,13 @@ import java.lang.management.MemoryType
 import javax.persistence.*
 
 @Entity
-data class UsageStats(var memory: MemoryData = MemoryData(),
+data class UsageStats(@OneToOne(cascade = [CascadeType.ALL], orphanRemoval = true)
+                      var memory: MemoryData = MemoryData(),
+                      @OneToOne(cascade = [CascadeType.ALL], orphanRemoval = true)
                       var scenario: ScenarioData = ScenarioData(),
+                      @OneToOne(cascade = [CascadeType.ALL], orphanRemoval = true)
                       var machine: MachineData = MachineData(),
+                      @OneToOne(cascade = [CascadeType.ALL], orphanRemoval = true)
                       var matsim: MatsimRunData = MatsimRunData()) {
     // not part of automatic equals method etc.
     // This is what we want.
