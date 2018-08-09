@@ -7,12 +7,20 @@ import org.matsim.core.gbl.Gbl
 import java.lang.management.ManagementFactory
 import java.lang.management.MemoryType
 import javax.persistence.Entity
+import javax.persistence.GeneratedValue
+import javax.persistence.GenerationType
+import javax.persistence.Id
 
 @Entity
 data class UsageStats(var memory: MemoryData = MemoryData(),
                       var scenario: ScenarioData = ScenarioData(),
                       var machine: MachineData = MachineData(),
                       var matsim: MatsimRunData = MatsimRunData()) {
+    // not part of automatic equals method etc.
+    // This is what we want.
+    @Id @GeneratedValue(strategy=GenerationType.AUTO)
+    lateinit var id: String
+
     constructor() : this(memory = MemoryData())
 
     companion object {
@@ -27,6 +35,11 @@ data class UsageStats(var memory: MemoryData = MemoryData(),
 @Entity
 data class MemoryData(var peakHeapMB: Double? = null,
                       var peakNonHeapMB: Double? = null) {
+    // not part of automatic equals method etc.
+    // This is what we want.
+    @Id @GeneratedValue(strategy=GenerationType.AUTO)
+    lateinit var id: String
+
     constructor() : this(peakHeapMB = null)
 
     companion object {
@@ -50,6 +63,11 @@ data class ScenarioData(var populationSize: Int? = null,
                         var nFacilities: Int? = null,
                         var nTransitLines: Int? = null,
                         var nTransitStops: Int? = null) {
+    // not part of automatic equals method etc.
+    // This is what we want.
+    @Id @GeneratedValue(strategy=GenerationType.AUTO)
+    lateinit var id: String
+
     constructor() : this(populationSize = null)
 
     companion object {
@@ -69,6 +87,11 @@ data class MachineData(var osName: String? = null,
                        var osVersion: String? = null,
                        var jvmVendor: String? = null,
                        var jvmVersion: String? = null) {
+    // not part of automatic equals method etc.
+    // This is what we want.
+    @Id @GeneratedValue(strategy=GenerationType.AUTO)
+    lateinit var id: String
+
     constructor() : this(osName = null)
 
     companion object {
@@ -88,6 +111,11 @@ data class MachineData(var osName: String? = null,
 data class MatsimRunData(var matsimVersion: String? = null,
                          var guiceBindings: List<GuiceBindingData>? = null,
                          var unexpectedShutdown: Boolean? = null) {
+    // not part of automatic equals method etc.
+    // This is what we want.
+    @Id @GeneratedValue(strategy=GenerationType.AUTO)
+    lateinit var id: String
+
     constructor() : this(matsimVersion = null)
 
     companion object {
@@ -106,6 +134,11 @@ data class GuiceBindingData(var key: String? = null,
                             var type: String? = null,
                             var provider: String? = null,
                             var source: String? = null) {
+    // not part of automatic equals method etc.
+    // This is what we want.
+    @Id @GeneratedValue(strategy=GenerationType.AUTO)
+    lateinit var id: String
+
     constructor() : this(key = null)
 
     companion object {
