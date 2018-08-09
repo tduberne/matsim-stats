@@ -6,7 +6,9 @@ import org.matsim.core.controler.MatsimServices
 import org.matsim.core.gbl.Gbl
 import java.lang.management.ManagementFactory
 import java.lang.management.MemoryType
+import javax.persistence.Entity
 
+@Entity
 data class UsageStats(var memory: MemoryData = MemoryData(),
                       var scenario: ScenarioData = ScenarioData(),
                       var machine: MachineData = MachineData(),
@@ -22,6 +24,7 @@ data class UsageStats(var memory: MemoryData = MemoryData(),
     }
 }
 
+@Entity
 data class MemoryData(var peakHeapMB: Double? = null,
                       var peakNonHeapMB: Double? = null) {
     constructor() : this(peakHeapMB = null)
@@ -40,6 +43,7 @@ fun peakUseMB(type: MemoryType) : Double =
                 .sum() / 1E6
 
 
+@Entity
 data class ScenarioData(var populationSize: Int? = null,
                         var nLinks: Int? = null,
                         var nNodes: Int? = null,
@@ -59,6 +63,7 @@ data class ScenarioData(var populationSize: Int? = null,
     }
 }
 
+@Entity
 data class MachineData(var osName: String? = null,
                        var osArch: String? = null,
                        var osVersion: String? = null,
@@ -79,6 +84,7 @@ data class MachineData(var osName: String? = null,
 
 // TODO: add stack trace if crash
 // TODO: information on config parameters
+@Entity
 data class MatsimRunData(var matsimVersion: String? = null,
                          var guiceBindings: List<GuiceBindingData>? = null,
                          var unexpectedShutdown: Boolean? = null) {
@@ -94,6 +100,7 @@ data class MatsimRunData(var matsimVersion: String? = null,
     }
 }
 
+@Entity
 data class GuiceBindingData(var key: String? = null,
                             var annotation: String? = null,
                             var type: String? = null,
