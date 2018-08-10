@@ -1,5 +1,7 @@
 package org.matsim.usagestats.listeners
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import org.matsim.core.controler.events.ShutdownEvent
 import org.matsim.core.controler.listener.ShutdownListener
@@ -14,7 +16,9 @@ class StatsListener: ShutdownListener {
         val stats = UsageStats.create(event!!.services, event!!.isUnexpected)
 
         // TODO: POST and write to file instead of to screen
-        val jsonWriter = jacksonObjectMapper().writerWithDefaultPrettyPrinter()
+        val jsonWriter = jacksonObjectMapper()
+                .setDefaultPropertyInclusion(JsonInclude.Include.NON_NULL)
+                .writerWithDefaultPrettyPrinter()
 
         println(jsonWriter.writeValueAsString(stats))
     }
