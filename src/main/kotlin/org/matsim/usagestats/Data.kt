@@ -1,5 +1,6 @@
 package org.matsim.usagestats
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import com.google.inject.Binding
 import org.matsim.api.core.v01.Scenario
 import org.matsim.core.controler.MatsimServices
@@ -8,6 +9,7 @@ import java.lang.management.ManagementFactory
 import java.lang.management.MemoryType
 import java.util.*
 import javax.persistence.*
+
 
 @Entity
 data class UsageStats(@OneToOne(cascade = [CascadeType.ALL], orphanRemoval = true)
@@ -20,7 +22,7 @@ data class UsageStats(@OneToOne(cascade = [CascadeType.ALL], orphanRemoval = tru
                       var matsim: MatsimRunData = MatsimRunData()) {
     // not part of automatic equals method etc.
     // This is what we want.
-    @Id @GeneratedValue
+    @Id @GeneratedValue @JsonIgnore
     var id: UUID? = null
 
     constructor() : this(memory = MemoryData())
@@ -39,7 +41,7 @@ data class MemoryData(var peakHeapMB: Double? = null,
                       var peakNonHeapMB: Double? = null) {
     // not part of automatic equals method etc.
     // This is what we want.
-    @Id @GeneratedValue
+    @Id @GeneratedValue @JsonIgnore
     var id: UUID? = null
 
     constructor() : this(peakHeapMB = null)
@@ -67,7 +69,7 @@ data class ScenarioData(var populationSize: Int? = null,
                         var nTransitStops: Int? = null) {
     // not part of automatic equals method etc.
     // This is what we want.
-    @Id @GeneratedValue
+    @Id @GeneratedValue @JsonIgnore
     var id: UUID? = null
 
     constructor() : this(populationSize = null)
@@ -91,7 +93,7 @@ data class MachineData(var osName: String? = null,
                        var jvmVersion: String? = null) {
     // not part of automatic equals method etc.
     // This is what we want.
-    @Id @GeneratedValue
+    @Id @GeneratedValue @JsonIgnore
     var id: UUID? = null
 
     constructor() : this(osName = null)
@@ -118,7 +120,7 @@ data class MatsimRunData(var matsimVersion: String? = null,
                          var unexpectedShutdown: Boolean? = null) {
     // not part of automatic equals method etc.
     // This is what we want.
-    @Id @GeneratedValue
+    @Id @GeneratedValue @JsonIgnore
     var id: UUID? = null
 
     constructor() : this(matsimVersion = null)
@@ -141,7 +143,7 @@ data class GuiceBindingData(var key: String? = null,
                             var source: String? = null) {
     // not part of automatic equals method etc.
     // This is what we want.
-    @Id @GeneratedValue
+    @Id @GeneratedValue @JsonIgnore
     var id: UUID? = null
 
     constructor() : this(key = null)
