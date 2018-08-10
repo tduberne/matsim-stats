@@ -6,6 +6,7 @@ import org.matsim.core.controler.MatsimServices
 import org.matsim.core.gbl.Gbl
 import java.lang.management.ManagementFactory
 import java.lang.management.MemoryType
+import java.util.*
 import javax.persistence.*
 
 @Entity
@@ -19,8 +20,8 @@ data class UsageStats(@OneToOne(cascade = [CascadeType.ALL], orphanRemoval = tru
                       var matsim: MatsimRunData = MatsimRunData()) {
     // not part of automatic equals method etc.
     // This is what we want.
-    @Id @GeneratedValue(strategy=GenerationType.AUTO)
-    lateinit var id: String
+    @Id @GeneratedValue
+    var id: UUID? = null
 
     constructor() : this(memory = MemoryData())
 
@@ -38,8 +39,8 @@ data class MemoryData(var peakHeapMB: Double? = null,
                       var peakNonHeapMB: Double? = null) {
     // not part of automatic equals method etc.
     // This is what we want.
-    @Id @GeneratedValue(strategy=GenerationType.AUTO)
-    lateinit var id: String
+    @Id @GeneratedValue
+    var id: UUID? = null
 
     constructor() : this(peakHeapMB = null)
 
@@ -66,8 +67,8 @@ data class ScenarioData(var populationSize: Int? = null,
                         var nTransitStops: Int? = null) {
     // not part of automatic equals method etc.
     // This is what we want.
-    @Id @GeneratedValue(strategy=GenerationType.AUTO)
-    lateinit var id: String
+    @Id @GeneratedValue
+    var id: UUID? = null
 
     constructor() : this(populationSize = null)
 
@@ -90,8 +91,8 @@ data class MachineData(var osName: String? = null,
                        var jvmVersion: String? = null) {
     // not part of automatic equals method etc.
     // This is what we want.
-    @Id @GeneratedValue(strategy=GenerationType.AUTO)
-    lateinit var id: String
+    @Id @GeneratedValue
+    var id: UUID? = null
 
     constructor() : this(osName = null)
 
@@ -115,8 +116,8 @@ data class MatsimRunData(var matsimVersion: String? = null,
                          var unexpectedShutdown: Boolean? = null) {
     // not part of automatic equals method etc.
     // This is what we want.
-    @Id @GeneratedValue(strategy=GenerationType.AUTO)
-    lateinit var id: String
+    @Id @GeneratedValue
+    var id: UUID? = null
 
     constructor() : this(matsimVersion = null)
 
@@ -138,8 +139,8 @@ data class GuiceBindingData(var key: String? = null,
                             var source: String? = null) {
     // not part of automatic equals method etc.
     // This is what we want.
-    @Id @GeneratedValue(strategy=GenerationType.AUTO)
-    lateinit var id: String
+    @Id @GeneratedValue
+    var id: UUID? = null
 
     constructor() : this(key = null)
 
