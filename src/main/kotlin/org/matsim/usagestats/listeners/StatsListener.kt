@@ -17,7 +17,7 @@ class StatsListener: ShutdownListener {
 
         // TODO: POST and write to file instead of to screen
         val jsonWriter = jacksonObjectMapper()
-                .setDefaultPropertyInclusion(JsonInclude.Include.NON_NULL)
+                .setDefaultPropertyInclusion(JsonInclude.Include.NON_EMPTY)
                 .writerWithDefaultPrettyPrinter()
 
         println(jsonWriter.writeValueAsString(stats))

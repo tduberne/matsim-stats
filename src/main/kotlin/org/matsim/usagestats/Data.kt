@@ -114,7 +114,7 @@ data class MatsimRunData(var matsimVersion: String? = null,
                          @OneToMany(cascade = [CascadeType.ALL],
                                  orphanRemoval = true,
                                  fetch = FetchType.EAGER)
-                         var guiceBindings: List<GuiceBindingData>? = null,
+                         var guiceBindings: List<GuiceBindingData> = emptyList(),
                          var unexpectedShutdown: Boolean? = null) {
     // not part of automatic equals method etc.
     // This is what we want.
