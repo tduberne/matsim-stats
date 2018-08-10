@@ -111,7 +111,9 @@ data class MachineData(var osName: String? = null,
 // TODO: information on config parameters
 @Entity
 data class MatsimRunData(var matsimVersion: String? = null,
-                         @OneToMany(cascade = [CascadeType.ALL], orphanRemoval = true)
+                         @OneToMany(cascade = [CascadeType.ALL],
+                                 orphanRemoval = true,
+                                 fetch = FetchType.EAGER)
                          var guiceBindings: List<GuiceBindingData>? = null,
                          var unexpectedShutdown: Boolean? = null) {
     // not part of automatic equals method etc.
