@@ -101,6 +101,7 @@ data class MatsimRunData(var matsimVersion: String? = null,
                          @OneToMany(cascade = [CascadeType.ALL],
                                  orphanRemoval = true,
                                  fetch = FetchType.EAGER)
+                         @JoinColumn(name="usage_data_id")
                          var guiceBindings: List<GuiceBindingData> = emptyList(),
                          var unexpectedShutdown: Boolean? = null) {
     constructor() : this(matsimVersion = null)
