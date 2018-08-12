@@ -12,13 +12,13 @@ import javax.persistence.*
 
 
 @Entity
-data class UsageStats(@OneToOne(cascade = [CascadeType.ALL], orphanRemoval = true)
+data class UsageStats(@Embedded
                       var memory: MemoryData = MemoryData(),
-                      @OneToOne(cascade = [CascadeType.ALL], orphanRemoval = true)
+                      @Embedded
                       var scenario: ScenarioData = ScenarioData(),
-                      @OneToOne(cascade = [CascadeType.ALL], orphanRemoval = true)
+                      @Embedded
                       var machine: MachineData = MachineData(),
-                      @OneToOne(cascade = [CascadeType.ALL], orphanRemoval = true)
+                      @Embedded
                       var matsim: MatsimRunData = MatsimRunData()) {
     // not part of automatic equals method etc.
     // This is what we want.
@@ -36,14 +36,9 @@ data class UsageStats(@OneToOne(cascade = [CascadeType.ALL], orphanRemoval = tru
     }
 }
 
-@Entity
+@Entity @Embeddable
 data class MemoryData(var peakHeapMB: Double? = null,
                       var peakNonHeapMB: Double? = null) {
-    // not part of automatic equals method etc.
-    // This is what we want.
-    @Id @GeneratedValue @JsonIgnore
-    var id: UUID? = null
-
     constructor() : this(peakHeapMB = null)
 
     companion object {
@@ -60,18 +55,13 @@ fun peakUseMB(type: MemoryType) : Double =
                 .sum() / 1E6
 
 
-@Entity
+@Entity @Embeddable
 data class ScenarioData(var populationSize: Int? = null,
                         var nLinks: Int? = null,
                         var nNodes: Int? = null,
                         var nFacilities: Int? = null,
                         var nTransitLines: Int? = null,
                         var nTransitStops: Int? = null) {
-    // not part of automatic equals method etc.
-    // This is what we want.
-    @Id @GeneratedValue @JsonIgnore
-    var id: UUID? = null
-
     constructor() : this(populationSize = null)
 
     companion object {
@@ -85,17 +75,12 @@ data class ScenarioData(var populationSize: Int? = null,
     }
 }
 
-@Entity
+@Entity @Embeddable
 data class MachineData(var osName: String? = null,
                        var osArch: String? = null,
                        var osVersion: String? = null,
                        var jvmVendor: String? = null,
                        var jvmVersion: String? = null) {
-    // not part of automatic equals method etc.
-    // This is what we want.
-    @Id @GeneratedValue @JsonIgnore
-    var id: UUID? = null
-
     constructor() : this(osName = null)
 
     companion object {
@@ -111,18 +96,13 @@ data class MachineData(var osName: String? = null,
 
 // TODO: add stack trace if crash
 // TODO: information on config parameters
-@Entity
+@Entity @Embeddable
 data class MatsimRunData(var matsimVersion: String? = null,
                          @OneToMany(cascade = [CascadeType.ALL],
                                  orphanRemoval = true,
                                  fetch = FetchType.EAGER)
                          var guiceBindings: List<GuiceBindingData> = emptyList(),
                          var unexpectedShutdown: Boolean? = null) {
-    // not part of automatic equals method etc.
-    // This is what we want.
-    @Id @GeneratedValue @JsonIgnore
-    var id: UUID? = null
-
     constructor() : this(matsimVersion = null)
 
     companion object {
