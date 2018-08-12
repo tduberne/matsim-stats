@@ -36,7 +36,7 @@ data class UsageStats(@Embedded
     }
 }
 
-@Entity @Embeddable
+@Embeddable
 data class MemoryData(var peakHeapMB: Double? = null,
                       var peakNonHeapMB: Double? = null) {
     constructor() : this(peakHeapMB = null)
@@ -55,7 +55,7 @@ fun peakUseMB(type: MemoryType) : Double =
                 .sum() / 1E6
 
 
-@Entity @Embeddable
+@Embeddable
 data class ScenarioData(var populationSize: Int? = null,
                         var nLinks: Int? = null,
                         var nNodes: Int? = null,
@@ -75,7 +75,7 @@ data class ScenarioData(var populationSize: Int? = null,
     }
 }
 
-@Entity @Embeddable
+@Embeddable
 data class MachineData(var osName: String? = null,
                        var osArch: String? = null,
                        var osVersion: String? = null,
@@ -96,7 +96,7 @@ data class MachineData(var osName: String? = null,
 
 // TODO: add stack trace if crash
 // TODO: information on config parameters
-@Entity @Embeddable
+@Embeddable
 data class MatsimRunData(var matsimVersion: String? = null,
                          @OneToMany(cascade = [CascadeType.ALL],
                                  orphanRemoval = true,
