@@ -116,11 +116,18 @@ data class MatsimRunData(var matsimVersion: String? = null,
     }
 }
 
+// define column type as being "text" to allow for arbitrary length. Might be hibernate specific, but Strings are by
+// default persisted in columns of type varchar(255) (up to 255 characters)
 @Entity
-data class GuiceBindingData(var key: String? = null,
+data class GuiceBindingData(@Column(columnDefinition="text")
+                            var key: String? = null,
+                            @Column(columnDefinition="text")
                             var annotation: String? = null,
+                            @Column(columnDefinition="text")
                             var type: String? = null,
+                            @Column(columnDefinition="text")
                             var provider: String? = null,
+                            @Column(columnDefinition="text")
                             var source: String? = null) {
     // not part of automatic equals method etc.
     // This is what we want.
