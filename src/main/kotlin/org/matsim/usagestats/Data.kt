@@ -3,6 +3,7 @@ package org.matsim.usagestats
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.google.inject.Binding
 import org.matsim.api.core.v01.Scenario
+import org.matsim.core.config.Config
 import org.matsim.core.controler.MatsimServices
 import org.matsim.core.gbl.Gbl
 import java.lang.management.ManagementFactory
@@ -19,7 +20,9 @@ data class UsageStats(@Embedded
                       @Embedded
                       var machine: MachineData = MachineData(),
                       @Embedded
-                      var matsim: MatsimRunData = MatsimRunData()) {
+                      var matsim: MatsimRunData = MatsimRunData(),
+                      @Embedded
+                      var files: FileVersionsData = FileVersionsData()) {
     // not part of automatic equals method etc.
     // This is what we want.
     @Id @GeneratedValue @JsonIgnore
@@ -33,6 +36,26 @@ data class UsageStats(@Embedded
                 ScenarioData.create(services.scenario),
                 MachineData.create(),
                 MatsimRunData.create(services, unexpectedShutdown))
+    }
+}
+
+@Embeddable
+data class FileVersionsData(var configFileVersion: String?,
+                            var populationFileVersion: String? = null,
+                            var networkFileVersion: String? = null,
+                            var facilitiesFileVersion: String? = null,
+                            var transitScheduleFileVersion: String? = null,
+                            var transitVehiclesFileVersion: String? = null) {
+    constructor() : this(null)
+
+    companion object {
+        fun create(config: Config) = FileVersionsData(
+                identifyFileFormat(config.context),
+                identifyFileFormat(config.plans().inputFile),
+                identifyFileFormat(config.network().inputFile),
+                identifyFileFormat(config.facilities().inputFile),
+                identifyFileFormat(config.transit().transitScheduleFile),
+                identifyFileFormat(config.transit().vehiclesFile))
     }
 }
 

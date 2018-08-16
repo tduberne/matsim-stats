@@ -18,7 +18,8 @@ class RunTest {
 
     @Test
     fun testRunDoesNotCrash() {
-        val config = utils.createConfig(File("./").toURL())
+        // TODO load an actual scenario
+        val config = utils.createConfig(File("./").toURI().toURL())
         config.controler().lastIteration = 0
 
         val controler = Controler(config)
