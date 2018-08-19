@@ -11,8 +11,9 @@ import java.lang.management.MemoryType
 import java.util.*
 import javax.persistence.*
 
+// all classes are "embeddable", to allow including them in records with more information on server side if needed
 
-@Entity
+@Embeddable
 data class UsageStats(@Embedded
                       var memory: MemoryData = MemoryData(),
                       @Embedded
@@ -23,11 +24,6 @@ data class UsageStats(@Embedded
                       var matsim: MatsimRunData = MatsimRunData(),
                       @Embedded
                       var files: FileVersionsData = FileVersionsData()) {
-    // not part of automatic equals method etc.
-    // This is what we want.
-    @Id @GeneratedValue @JsonIgnore
-    var id: UUID? = null
-
     constructor() : this(memory = MemoryData())
 
     companion object {
