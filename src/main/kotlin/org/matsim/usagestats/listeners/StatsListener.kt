@@ -2,6 +2,7 @@ package org.matsim.usagestats.listeners
 
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import org.apache.http.client.config.RequestConfig
 import org.apache.http.client.methods.HttpPost
 import org.apache.http.entity.StringEntity
 import org.apache.http.impl.client.HttpClientBuilder
@@ -28,7 +29,15 @@ class StatsListener: ShutdownListener {
 
             val configGroup = event.services.config.getModule(UsageStatsConfigGroup.GROUP_NAME) as UsageStatsConfigGroup
 
-            HttpClientBuilder.create().build().use {
+            val requestConfig = RequestConfig.custom()
+                    .setConnectTimeout(configGroup.timeout_s * 1000)
+                    .setConnectionRequestTimeout(configGroup.timeout_s * 1000)
+                    .setSocketTimeout(configGroup.timeout_s * 1000)
+                    .build()
+            HttpClientBuilder.create()
+                    .setDefaultRequestConfig(requestConfig)
+                    .build()
+                    .use {
                 for (endpoint in configGroup.endpoints) {
                     val request = HttpPost(endpoint)
                     request.entity = StringEntity(json)

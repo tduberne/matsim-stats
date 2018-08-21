@@ -5,6 +5,9 @@ import org.matsim.core.utils.collections.CollectionUtils
 
 class UsageStatsConfigGroup : ReflectiveConfigGroup(GROUP_NAME) {
     val endpoints: MutableSet<String> = mutableSetOf("http://ivt-mokil.ethz.ch/api/data")
+    @get:StringGetter("timeout_s")
+    @set:StringSetter("timeout_s")
+    var timeout_s: Int = 5
 
     fun addEndpoint(url: String) {
         endpoints.add(url)
