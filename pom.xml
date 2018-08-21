@@ -26,6 +26,7 @@
 			<groupId>org.matsim</groupId>
 			<artifactId>matsim</artifactId>
 			<version>0.10.0</version>
+            <optional>true</optional>
 		</dependency>
 
 		<dependency>
