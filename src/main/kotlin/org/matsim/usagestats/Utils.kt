@@ -19,6 +19,14 @@ fun identifyFileFormat(path: String?): String? {
     return identifyFileFormat(File(path).toURI().toURL())
 }
 
+fun identifyFileFormat(path: Lazy<URL?>): String? {
+    try {
+        identifyFileFormat(path.value)
+    }
+    catch (e: NullPointerException) {}
+    return null
+}
+
 fun identifyFileFormat(path: URL?): String? {
     if(path == null) return null
 
