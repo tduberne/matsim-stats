@@ -21,7 +21,7 @@ fun identifyFileFormat(path: String?): String? {
 
 fun identifyFileFormat(path: Lazy<URL?>): String? {
     try {
-        identifyFileFormat(path.value)
+        return identifyFileFormat(path.value)
     }
     catch (e: NullPointerException) {}
     return null
@@ -29,6 +29,8 @@ fun identifyFileFormat(path: Lazy<URL?>): String? {
 
 fun identifyFileFormat(path: URL?): String? {
     if(path == null) return null
+
+    log.debug("identifying file format for file $path")
 
     try {
         val xmlReader = XMLInputFactory.newInstance()!!.createXMLStreamReader(IOUtils.getInputStream(path))
