@@ -26,6 +26,8 @@
 			<groupId>org.matsim</groupId>
 			<artifactId>matsim</artifactId>
 			<version>0.10.0</version>
+            <!-- do not transitively transmit dependency to projects depending on us.
+                This allows users to choose what MATSim version they want to use -->
             <optional>true</optional>
 		</dependency>
 

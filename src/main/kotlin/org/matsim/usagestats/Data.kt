@@ -31,7 +31,8 @@ data class UsageStats(@Embedded
                 MemoryData.create(),
                 ScenarioData.create(services.scenario),
                 MachineData.create(),
-                MatsimRunData.create(services, unexpectedShutdown))
+                MatsimRunData.create(services, unexpectedShutdown),
+                FileVersionsData.create(services.config))
     }
 }
 
