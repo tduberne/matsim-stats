@@ -35,7 +35,7 @@ The module is distributed using jitpack. For maven, add the following snippets:
 ```
 
 where `[version number]` is any commit number or tags
-(see  on this repository.
+(see the "releases" tab on this repository).
 
 
 How to Use
