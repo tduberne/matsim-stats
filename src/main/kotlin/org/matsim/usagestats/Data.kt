@@ -48,11 +48,11 @@ data class FileVersionsData(var configFileVersion: String?,
     companion object {
         fun create(config: Config) = FileVersionsData(
                 identifyFileFormat(config.context),
-                identifyFileFormat(config.plans().inputFile),
-                identifyFileFormat(config.network().inputFile),
-                identifyFileFormat(config.facilities().inputFile),
-                identifyFileFormat(config.transit().transitScheduleFile),
-                identifyFileFormat(config.transit().vehiclesFile))
+                identifyFileFormat(config.plans().getInputFileURL(config.context)),
+                identifyFileFormat(config.network().getInputFileURL(config.context)),
+                identifyFileFormat(config.facilities().getInputFileURL(config.context)),
+                identifyFileFormat(config.transit().getTransitScheduleFileURL(config.context)),
+                identifyFileFormat(config.transit().getVehiclesFileURL(config.context)))
     }
 }
 
