@@ -5,7 +5,7 @@ import org.matsim.core.config.ReflectiveConfigGroup
 class UsageStatsConfigGroup : ReflectiveConfigGroup(GROUP_NAME) {
     @get:StringGetter("endpoints")
     @set:StringSetter("endpoints")
-    var endpoints: List<String> = listOf("http://ivt-molik.ethz.ch/api/data")
+    var endpoints: List<String> = listOf("http://ivt-mokil.ethz.ch/api/data")
 
     companion object {
         val GROUP_NAME = "usageStats"
