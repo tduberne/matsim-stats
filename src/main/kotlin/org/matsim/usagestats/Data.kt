@@ -31,7 +31,8 @@ data class UsageStats(@Embedded
                 MemoryData.create(),
                 ScenarioData.create(services.scenario),
                 MachineData.create(),
-                MatsimRunData.create(services, unexpectedShutdown))
+                MatsimRunData.create(services, unexpectedShutdown),
+                FileVersionsData.create(services.config))
     }
 }
 
@@ -47,11 +48,11 @@ data class FileVersionsData(var configFileVersion: String?,
     companion object {
         fun create(config: Config) = FileVersionsData(
                 identifyFileFormat(config.context),
-                identifyFileFormat(config.plans().inputFile),
-                identifyFileFormat(config.network().inputFile),
-                identifyFileFormat(config.facilities().inputFile),
-                identifyFileFormat(config.transit().transitScheduleFile),
-                identifyFileFormat(config.transit().vehiclesFile))
+                identifyFileFormat(lazy { config.plans().getInputFileURL(config.context) }),
+                identifyFileFormat(lazy { config.network().getInputFileURL(config.context) }),
+                identifyFileFormat(lazy { config.facilities().getInputFileURL(config.context) }),
+                identifyFileFormat(lazy { config.transit().getTransitScheduleFileURL(config.context) }),
+                identifyFileFormat(lazy { config.transit().getVehiclesFileURL(config.context) } ))
     }
 }
 
