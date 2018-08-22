@@ -18,7 +18,7 @@ The module is distributed using jitpack. For maven, add the following snippets:
 	<repository>
 		<!-- for matsim stats -->
 		<id>jitpack.io</id>
-		<url>httpttps://jitpack.io</url>
+		<url>https://jitpack.io</url>
 	</repository>
 </repositories>
 								
