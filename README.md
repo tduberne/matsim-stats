@@ -1,3 +1,5 @@
+[![](https://jitpack.io/v/tduberne/matsim-stats.svg)](https://jitpack.io/#tduberne/matsim-stats)
+
 MATSim Usage Statistics Module
 ==============================
 
